@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайт-визитка</title>
+    <style>
+        * {
+            background-color: #0abab5;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .header {
+            border: 2px solid black;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            display: flex;
+            justify-content: space-between;
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .div-item {
+            border: 2px solid black;
+            padding: 10px;
+            width: 30%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content:center;
+        }
+        .div-image {
+            flex-grow: 1;
+            background-color: #f0f0f0;
+            max-width: 100%;
+            max-height: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .footer {
+            border: 2px solid black;
+            padding: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        table {
+            width: 100%;
+
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        ul, ol {
+
+            padding-left: 20px;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Заголовки -->
+    <div class="header">
+        <h1 id="main-header">Капитан Пронин</h1>
+    </div>
+   
+    <div class="header">
+        <h2 id="second-header">Полицейский</h2>
+    </div>
+   
+    <div class="header">
+        <h3 id="third-header">Детектив</h3>
+    </div>
+
+
+    <!-- Основная часть -->
+    <div class="content">
+        <div cla    ss="div-item">
+            <div class="div-image"><img src = "https://s3.amazonaws.com/images.ecwid.com/images/7075793/1304448192.jpg" /></div>
+            <table>
+                <tr>
+                    <th>Часто посещаемые станции метро</th>
+                </tr>
+                <tr>
+                    <td>Сокольники</td>
+                </tr>
+                <tr>
+                    <td>Дубровка</td>
+                </tr>
+                <tr>
+                    <td>Охотный ряд</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="div-item">
+            <div>Область списка с контактной информацией</div>
+            <ol type="I">
+                <li>Контакты: +7-777-777-77-77, capitan.pronin@ment.ru</li>
+                <li>Социальные сети: Не придумали</li>
+                <li>Блоги: Записки в блокноте</li>
+            </ol>
+        </div>
+
+        <div class="div-item">
+            <div>Область предоставления списка персональных данных</div>
+            <ul>
+                <li>Дата рождения: 12.06.1957</li>
+                <li>Частная информация: Капитан полиции, лучший служащий, женат</li>
+                <li>Домашний адрес: Космонавтов, 11</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Нижний колонтитул -->
+    <div class="footer">
+        <div>capitan pronin 1992</div>
+        <div class="button-container">
+            <button id="btn-h1">H1</button>
+            <button id="btn-h2">H2</button>
+            <button id="btn-h3">H3</button>
+            <button id="btn-h4">H4</button>
+            <button id="btn-h5">H5</button>
+            <button id="btn-h6">H6</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let header = document.getElementById("main-header");
+    const buttons = {
+        "btn-h1": "h1",
+        "btn-h2": "h2",
+        "btn-h3": "h3",
+        "btn-h4": "h4",
+        "btn-h5": "h5",
+        "btn-h6": "h6"
+    };
+
+    // Функция для замены заголовка и деактивации кнопки
+    function changeHeader(tagName, buttonId) {
+        const parent = header.parentNode;
+        const newHeader = document.createElement(tagName);
+        newHeader.id = "main-header";
+        newHeader.innerHTML = header.innerHTML;
+
+        // Удаление старого заголовка
+	if (header) {
+        	parent.removeChild(header);
+	}
+
+        // Добавление нового заголовка
+        parent.appendChild(newHeader);
+
+        // Переназначение новой ссылки на заголовок
+        header = document.getElementById("main-header");
+
+        // Отключение активной кнопки
+        for (let btnId in buttons) {
+            document.getElementById(btnId).disabled = false;
+        }
+        document.getElementById(buttonId).disabled = true;
+    }
+
+    // Добавляем события кликов на кнопки
+    for (let btnId in buttons) {
+        document.getElementById(btnId).addEventListener("click", function() {
+            changeHeader(buttons[btnId], btnId);
+        });
+    }
+</script>
+
+</body>
+</html>
