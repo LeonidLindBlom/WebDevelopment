@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centered Div</title>
+    <script src="vue.global.js"></script> <!-- Подключение Vue.js -->
+</head>
+<body>
+    <div id="app">
+        <div :style="[{display: 'flex'}, {justifyContent: 'center'}, {alignItems: 'center'}, {height: '98vh'}]">
+            <div 
+            :style="blockStyle" 
+            tabindex="0" 
+            @keydown.left.prevent="handleKeydownLeft"
+            @keydown.right.prevent="handleKeydownRight"
+            @keydown.up.prevent="handleKeydownUp"
+            @keydown.down.prevent="handleKeydownDown"
+        >
+            <p>My text</p>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        //flex-start, center, flex-end
+        const app = Vue.createApp({
+            data() {
+                return {
+                    // Переменные для управления выравниванием
+                    horizontalAlign: 'center',
+                    verticalAlign: 'center',
+                };
+            },
+            computed: {
+                // Стиль для блока
+                blockStyle() {
+                    return {
+                        width: '500px',
+                        height: '500px',
+                        display: 'flex',
+                        justifyContent: this.horizontalAlign, // выравнивание по горизонтали
+                        alignItems: this.verticalAlign,       // выравнивание по вертикали
+                        border: '1px solid black'
+                    };
+                },
+            },
+            methods: {
+                handleKeydownLeft() {
+                    if (this.horizontalAlign === 'center') {
+                        this.horizontalAlign = 'flex-start'
+                    }
+                    else if (this.horizontalAlign === 'flex-end') {
+                        this.horizontalAlign = 'center'
+                    }
+                },
+                handleKeydownRight() {
+                    if (this.horizontalAlign === 'center') {
+                        this.horizontalAlign = 'flex-end'
+                    }
+                    else if (this.horizontalAlign === 'flex-start') {
+                        this.horizontalAlign = 'center'
+                    }
+                },
+                handleKeydownUp() {
+                    if (this.verticalAlign === 'center') {
+                        this.verticalAlign = 'flex-start'
+                    }
+                    else if (this.verticalAlign === 'flex-end') {
+                        this.verticalAlign = 'center'
+                    }
+                },
+                handleKeydownDown() {
+                    if (this.verticalAlign === 'center') {
+                        this.verticalAlign = 'flex-end'
+                    }
+                    else if (this.verticalAlign === 'flex-start') {
+                        this.verticalAlign = 'center'
+                    }
+                },
+            }
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+</html>

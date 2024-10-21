@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue.js Double Click Example</title>
+  <script src="vue.global.js"></script> <!-- Локальное подключение Vue.js -->
+</head>
+<body>
+  <div id="app">
+    <div 
+      @dblclick.shift="() => this.textAlign = this.textAlign === 'left' ? 'center' : 'left'" 
+      @dblclick="() => this.displayText = 'Мой текст'" 
+      :style="{ textAlign: textAlign, border: '1px solid black', padding: '10px', width: '200px', height: '100px' }"
+    >
+      {{ displayText }}
+    </div>
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          displayText: 'Нажмите ЛКМ дважды',        // Текст, который будет отображаться вначале
+          textAlign: 'left',      // Начальное выравнивание текста
+        };
+      },
+    });
+
+    app.mount('#app');
+  </script>
+</body>
+</html>

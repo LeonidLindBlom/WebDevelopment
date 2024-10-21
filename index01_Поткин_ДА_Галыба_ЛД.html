@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue.js IFrame Example</title>
+  <script src="vue.global.js"></script> <!-- Локальное подключение Vue.js -->
+</head>
+<body>
+  <div id="app">
+    <iframe 
+      :style="{padding: '50px'}"
+      :src="frameSrc" 
+      :width="frameWidth" 
+      :height="frameHeight" 
+      :frameborder="frameBorder" 
+      :scrolling="frameScrolling">
+    </iframe>
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          frameSrc: 'site_card.html', // путь к локальному сайту-визитке
+          frameWidth: 300,
+          frameHeight: 400,
+          frameBorder: 0, // убираем границу
+          frameScrolling: 'no', // убираем прокрутку
+        };
+      },
+    });
+
+    app.mount('#app');
+  </script>
+</body>
+</html>
