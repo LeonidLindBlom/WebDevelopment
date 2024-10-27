@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorization Form</title>
+    <script src="vue.global.js"></script> <!-- Подключение Vue.js -->
+</head>
+<body>
+    <div id="app">
+        <div>
+            <h2>Форма авторизации</h2>
+            <input type="text" v-model="username" placeholder="Логин" />
+            <input type="password" v-model="password" placeholder="Пароль" />
+        </div>
+
+        <div>
+            <div v-if="(username === 'test' && password === 'test') | (username === 'admin' && password === 'admin') | (username === 'user' && password === 'user')">
+                <h2>Добро пожаловать, {{ username }}</h2>
+                <button v-on:click="logout">Выход</button>
+            </div>
+            
+            <!-- Режим "test" -->
+            <div v-if="username === 'test' && password === 'test'"> 
+                <h3>Информация о разработчике:</h3>
+                <p>Фамилия: {{ developerInfo.lastName }}</p>
+                <p>Имя: {{ developerInfo.firstName }}</p>
+                <p>Отчество: {{ developerInfo.middleName }}</p>
+                <p>Учебная группа: {{ developerInfo.groupName }}</p>
+                <p>Номер группы: {{ developerInfo.groupNumber }}</p>
+            </div>
+
+            <!-- Режим "admin" -->
+            <div v-else-if="username === 'admin' && password === 'admin'">
+                <h3>Редактирование информации о разработчике:</h3>
+                <input type="text" v-model="developerInfo.lastName" placeholder="Фамилия" />
+                <input type="text" v-model="developerInfo.firstName" placeholder="Имя" />
+                <input type="text" v-model="developerInfo.middleName" placeholder="Отчество" />
+            </div>
+
+            <!-- Режим "user" -->
+            <div v-else-if="username === 'user' && password === 'user'">
+                <h3>Ввод информации об учебной группе:</h3>
+                <input type="text" v-model="developerInfo.groupName" placeholder="Название группы" />
+                <input type="text" v-model="developerInfo.groupNumber" placeholder="Номер группы" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    username: '',
+                    password: '',
+                    developerInfo: {
+                        lastName: 'Pronin',
+                        firstName: 'Capitan',
+                        middleName: 'Developerovich',
+                        groupName: '',
+                        groupNumber: ''
+                    }
+                };
+            },
+            methods: {
+                logout() {
+                    this.username = '';
+                    this.password = '';
+                },
+            }
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+</html>
