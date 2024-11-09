@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="vue.global.js"></script> <!-- Подключение Vue.js -->
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        const logLifecycle = (name, hook) => console.log(`${name} component: ${hook}`);
+
+        const Message = {
+            template: `<div class="component"><p>{{ message }}</p></div>`,
+            data: () => ({ message: 'Lifecycle Vue.js' }),
+            beforeCreate() { logLifecycle('Message', 'beforeCreate'); },
+            created() { logLifecycle('Message', 'created'); },
+            beforeMount() { logLifecycle('Message', 'beforeMount'); },
+            mounted() { logLifecycle('Message', 'mounted'); },
+            beforeUpdate() { logLifecycle('Message', 'beforeUpdate'); },
+            updated() { logLifecycle('Message', 'updated'); },
+            beforeUnmount() { logLifecycle('Message', 'beforeUnmount'); },
+            unmounted() { logLifecycle('Message', 'unmounted'); }
+        };
+
+        const Counter = {
+            template: `
+                <div class="component">
+                    <p>Значение: {{ count }}</p>
+                    <button @click="count++">Увеличить</button>
+                </div>
+            `,
+            data: () => ({ count: 0 }),
+            beforeCreate() { logLifecycle('Counter', 'beforeCreate'); },
+            created() { logLifecycle('Counter', 'created'); },
+            beforeMount() { logLifecycle('Counter', 'beforeMount'); },
+            mounted() { logLifecycle('Counter', 'mounted'); },
+            beforeUpdate() { logLifecycle('Counter', 'beforeUpdate'); },
+            updated() { logLifecycle('Counter', 'updated'); },
+            beforeUnmount() { logLifecycle('Counter', 'beforeUnmount'); },
+            unmounted() { logLifecycle('Counter', 'unmounted'); }
+        };
+
+        const App = {
+            template: `
+                <div>
+                    <Counter />
+                    <Message />
+                </div>
+            `,
+            components: { Counter, Message },
+            beforeCreate() { logLifecycle('App', 'beforeCreate'); },
+            created() { logLifecycle('App', 'created'); },
+            beforeMount() { logLifecycle('App', 'beforeMount'); },
+            mounted() { logLifecycle('App', 'mounted'); },
+            beforeUpdate() { logLifecycle('App', 'beforeUpdate'); },
+            updated() { logLifecycle('App', 'updated'); },
+            beforeUnmount() { logLifecycle('App', 'beforeUnmount'); },
+            unmounted() { logLifecycle('App', 'unmounted'); }
+        };
+
+        Vue.createApp(App).mount('#app');
+    </script>
+</body>
+</html>
