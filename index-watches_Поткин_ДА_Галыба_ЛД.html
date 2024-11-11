@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Выбор изображения на Vue.js</title>
+  <script src="vue.global.js"></script> <!-- Подключение Vue.js локально -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    input {
+      margin-bottom: 20px;
+      padding: 5px;
+      font-size: 16px;
+      display: block;
+      width: 98%;
+    }
+    img {
+      border: 1px solid #ddd;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>Выбор изображения</h2>
+    <img :src="imageSrc" alt="Изображение" />
+    <input type="text" v-model="imageName" placeholder="Введите название изображения" />
+  </div>
+
+  <script>
+    const { createApp, ref, watch } = Vue;
+
+    createApp({
+      setup() {
+        const imageName = ref('');
+        const imageSrc = ref('images/7.png'); // Путь к изображению по умолчанию
+
+        // Список доступных изображений
+        const availableImages = [
+          'images/1.png',
+          'images/2.png',
+          'images/3.png',
+          'images/4.png',
+          'images/5.png',
+          'images/6.png'
+        ];
+
+        // Наблюдатель за изменением imageName
+        watch(imageName, (newName) => {
+          const imagePath = `images/${newName}.png`;
+          if (availableImages.includes(imagePath)) {
+            imageSrc.value = imagePath;
+          } else {
+            imageSrc.value = 'images/7.png';
+          }
+        });
+
+        return {
+          imageName,
+          imageSrc
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>

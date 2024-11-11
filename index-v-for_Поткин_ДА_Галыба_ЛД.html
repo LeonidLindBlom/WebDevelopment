@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кубический массив на Vue.js</title>
+  <script src="vue.global.js"></script> <!-- Подключение Vue.js -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    input {
+      margin-bottom: 20px;
+      padding: 5px;
+      font-size: 16px;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+    .cell {
+      border: 1px solid black;
+      padding: 5px;
+      width: 50px;
+      text-align: center;
+    }
+    p {
+      font-weight: bold;
+      margin-top: 20px;
+      max-width: 100vw;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>Кубический массив и спиральный вывод</h2>
+    <input
+      type="number"
+      min="1"
+      v-model="dimension"
+      @blur="generateArray"
+      placeholder="Введите размерность массива"
+    />
+    <table v-if="spiralArray.length">
+      <tr v-for="(row, rowIndex) in spiralArray" :key="'row-' + rowIndex">
+        <td v-for="(cell, cellIndex) in row" :key="'cell-' + rowIndex + '-' + cellIndex" class="cell">
+          {{ cell }}
+        </td>
+      </tr>
+    </table>
+    <p v-if="flattenedArray.length">{{ flattenedArray.join('$') }}</p>
+  </div>
+
+  <script>
+    const { createApp, ref, computed } = Vue;
+
+    createApp({
+      setup() {
+        const dimension = ref(0); //размерность кубического массива
+        const cubeArray = ref([]); //кубический массив размером dimension x dimension x dimension
+        const spiralArray = ref([]); //массив размером dimension x dimension
+
+        // Генерация случайного целого числа от -999 до 999
+        const getRandomInt = () => Math.floor(Math.random() * 1999) - 999;
+
+        const generateArray = () => {
+          const size = dimension.value;
+          if (size < 1) return;
+
+          // Заполняем массив случайными значениями
+          cubeArray.value = Array.from({ length: size }, () =>
+            Array.from({ length: size }, () =>
+              Array.from({ length: size }, () => getRandomInt())
+            )
+          );
+
+          // Преобразуем массив в спиральное представление
+          spiralArray.value = createSpiral(cubeArray.value, size);
+        };
+
+        // Функция создания спирали
+        const createSpiral = (array, size) => {
+          const result = Array.from({ length: size }, () => Array(size).fill(""));
+          let top = 0, bottom = size - 1, left = 0, right = size - 1;
+          let idx = 0;
+
+          while (top <= bottom && left <= right) {
+            for (let i = left; i <= right; i++) result[top][i] = array.flat(2)[idx++];
+            top++;
+            for (let i = top; i <= bottom; i++) result[i][right] = array.flat(2)[idx++];
+            right--;
+            if (top <= bottom) for (let i = right; i >= left; i--) result[bottom][i] = array.flat(2)[idx++];
+            bottom--;
+            if (left <= right) for (let i = bottom; i >= top; i--) result[i][left] = array.flat(2)[idx++];
+            left++;
+          }
+          return result;
+        };
+
+        // Плоский массив для вывода по индексу
+        const flattenedArray = computed(() => {
+          return cubeArray.value
+            .flatMap(layer => layer.flatMap(row => row))
+            .map((num) => num.toString());
+        });
+
+        return {
+          dimension,
+          spiralArray,
+          flattenedArray,
+          generateArray,
+        };
+      },
+    }).mount("#app");
+  </script>
+</body>
+</html>
